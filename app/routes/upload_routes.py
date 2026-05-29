@@ -81,12 +81,12 @@ async def upload_csv(
                 
                 # Validate required fields
                 if not user_id or amount <= 0 or not city or not payment_method:
-                    logger.log_error(f"Invalid row {idx}: missing or invalid fields")
+                    logger.error(f"Invalid row {idx}: missing or invalid fields")
                     continue
                 
                 transactions.append((user_id, amount, city, payment_method, is_suspicious))
             except Exception as e:
-                logger.log_error(f"CSV parse error at row {idx}: {str(e)}")
+                logger.error(f"CSV parse error at row {idx}: {str(e)}")
                 continue
         
         if not transactions:
@@ -114,7 +114,7 @@ async def upload_csv(
     except HTTPException:
         raise
     except Exception as e:
-        logger.log_error(str(e), "upload_csv")
+        logger.error(str(e), "upload_csv")
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
 
