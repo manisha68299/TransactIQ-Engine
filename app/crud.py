@@ -47,7 +47,7 @@ def create_transaction(
         return db_transaction
     except Exception as e:
         db.rollback()
-        logger.error(f" Failed to create transaction: {str(e)}")
+        logger.log_error(f" Failed to create transaction: {str(e)}")
         raise
 
 
@@ -178,14 +178,14 @@ def bulk_create_transactions(
             successful += 1
         except Exception as e:
             failed += 1
-            logger.error(f" Bulk create error for user {user_id}: {str(e)}")
+            logger.log_error(f" Bulk create error for user {user_id}: {str(e)}")
 
     try:
         db.commit()
         logger.info(f" Bulk insert completed: {successful} successful, {failed} failed")
     except Exception as e:
         db.rollback()
-        logger.error(f" Bulk commit error: {str(e)}")
+        logger.log_error(f" Bulk commit error: {str(e)}")
         return (0, successful + failed)
 
     return (successful, failed)
@@ -215,5 +215,5 @@ def mark_suspicious_transaction(db: Session, transaction_id: int) -> bool:
         return False
     except Exception as e:
         db.rollback()
-        logger.error(f" Error marking transaction as suspicious: {str(e)}")
+        logger.log_error(f" Error marking transaction as suspicious: {str(e)}")
         return False

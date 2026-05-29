@@ -64,7 +64,7 @@ app.add_middleware(
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc):
     """Handle uncaught exceptions globally."""
-    logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
+    logger.log_error(f"Unhandled exception: {str(exc)}", exc_info=True)
     return JSONResponse(
         status_code=500,
         content={

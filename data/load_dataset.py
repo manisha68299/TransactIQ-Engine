@@ -54,8 +54,8 @@ def load_raw_data():
     """Load CSV data from sample_transactions.csv using Pandas."""
     try:
         if not PROCESSED_CSV_PATH.exists():
-            logger.error(f"[ERROR] CSV file not found at {PROCESSED_CSV_PATH}")
-            logger.error("[ERROR] Please ensure sample_transactions.csv exists in the data folder")
+            logger.log_error(f"[ERROR] CSV file not found at {PROCESSED_CSV_PATH}")
+            logger.log_error("[ERROR] Please ensure sample_transactions.csv exists in the data folder")
             return None
         
         logger.info(f"[PROCESS] Loading data from {PROCESSED_CSV_PATH}...")
@@ -65,7 +65,7 @@ def load_raw_data():
         return df
         
     except Exception as e:
-        logger.error(f"[ERROR] Error loading raw data: {e}")
+        logger.log_error(f"[ERROR] Error loading raw data: {e}")
         import traceback
         traceback.print_exc()
         return None
@@ -181,7 +181,7 @@ def clean_data(df):
         return df
         
     except Exception as e:
-        logger.error(f"[ERROR] Error during data cleaning: {e}")
+        logger.log_error(f"[ERROR] Error during data cleaning: {e}")
         import traceback
         traceback.print_exc()
         return None
@@ -219,7 +219,7 @@ def load_to_database(df):
         return True
         
     except Exception as e:
-        logger.error(f"[ERROR] Error loading to database: {e}")
+        logger.log_error(f"[ERROR] Error loading to database: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -310,20 +310,20 @@ def main():
         logger.info("\n[STEP 2] Loading data from sample_transactions.csv...")
         df = load_raw_data()
         if df is None:
-            logger.error("[ERROR] Failed to load raw data. Exiting.")
+            logger.log_error("[ERROR] Failed to load raw data. Exiting.")
             return False
         
         # Step 3: Clean data
         logger.info("\n[STEP 3] Cleaning and normalizing data...")
         df = clean_data(df)
         if df is None:
-            logger.error("[ERROR] Failed to clean data. Exiting.")
+            logger.log_error("[ERROR] Failed to clean data. Exiting.")
             return False
         
         # Step 4: Load to database
         logger.info("\n[STEP 4] Loading data into SQLite database...")
         if not load_to_database(df):
-            logger.error("[ERROR] Failed to load data into database. Exiting.")
+            logger.log_error("[ERROR] Failed to load data into database. Exiting.")
             return False
         
         # Step 5: Display summary
@@ -349,7 +349,7 @@ def main():
         return True
         
     except Exception as e:
-        logger.error(f"[ERROR] Fatal error: {e}")
+        logger.log_error(f"[ERROR] Fatal error: {e}")
         import traceback
         traceback.print_exc()
         return False

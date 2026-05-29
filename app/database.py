@@ -48,7 +48,7 @@ def get_db() -> Session:
     try:
         yield db
     except Exception as e:
-        logger.error(f"Database session error: {str(e)}")
+        logger.log_error(f"Database session error: {str(e)}")
         db.rollback()
         raise
     finally:
@@ -62,7 +62,7 @@ def init_db():
         Base.metadata.create_all(bind=engine)
         logger.info(" Database initialized successfully")
     except Exception as e:
-        logger.error(f"Database initialization error: {str(e)}")
+        logger.log_error(f"Database initialization error: {str(e)}")
         raise
 
 
@@ -82,5 +82,5 @@ def get_db_stats():
             "database_url": DATABASE_URL
         }
     except Exception as e:
-        logger.error(f"Database stats error: {str(e)}")
+        logger.log_error(f"Database stats error: {str(e)}")
         return {"status": "error", "message": str(e)}

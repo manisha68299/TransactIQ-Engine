@@ -69,7 +69,7 @@ async def submit_transaction(
         
         return db_transaction
     except Exception as e:
-        logger.error(str(e), "submit_transaction")
+        logger.log_error(str(e), "submit_transaction")
         raise HTTPException(status_code=500, detail="Failed to create transaction")
 
 
@@ -97,7 +97,7 @@ async def get_transactions(
             data=transactions
         )
     except Exception as e:
-        logger.error(str(e), "get_transactions")
+        logger.log_error(str(e), "get_transactions")
         raise HTTPException(status_code=500, detail="Failed to retrieve transactions")
 
 
@@ -117,7 +117,7 @@ async def get_transaction_by_id(
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(str(e), "get_transaction_by_id")
+        logger.log_error(str(e), "get_transaction_by_id")
         raise HTTPException(status_code=500, detail="Failed to retrieve transaction")
 
 
@@ -133,7 +133,7 @@ async def get_by_city(
         
         return transactions
     except Exception as e:
-        logger.error(str(e), "get_by_city")
+        logger.log_error(str(e), "get_by_city")
         raise HTTPException(status_code=500, detail="Failed to retrieve city transactions")
 
 
@@ -149,7 +149,7 @@ async def get_by_user(
         
         return transactions
     except Exception as e:
-        logger.error(str(e), "get_by_user")
+        logger.log_error(str(e), "get_by_user")
         raise HTTPException(status_code=500, detail="Failed to retrieve user transactions")
 
 
@@ -165,7 +165,7 @@ async def get_suspicious(db: Session = Depends(get_db)):
             "transactions": transactions
         }
     except Exception as e:
-        logger.error(str(e), "get_suspicious")
+        logger.log_error(str(e), "get_suspicious")
         raise HTTPException(status_code=500, detail="Failed to retrieve suspicious transactions")
 
 
@@ -188,5 +188,5 @@ async def get_transaction_stats(db: Session = Depends(get_db)):
             "suspicious_percentage": round((total_suspicious / total_transactions * 100) if total_transactions > 0 else 0, 2)
         }
     except Exception as e:
-        logger.error(str(e), "get_transaction_stats")
+        logger.log_error(str(e), "get_transaction_stats")
         raise HTTPException(status_code=500, detail="Failed to retrieve statistics")

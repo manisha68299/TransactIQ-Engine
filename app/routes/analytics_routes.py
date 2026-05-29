@@ -44,7 +44,7 @@ async def get_revenue_analytics(db: Session = Depends(get_db)):
         
         return metrics
     except Exception as e:
-        logger.error(str(e), "get_revenue_analytics")
+        logger.log_error(str(e), "get_revenue_analytics")
         raise HTTPException(status_code=500, detail="Failed to generate revenue analytics")
 
 
@@ -74,7 +74,7 @@ async def get_city_analytics(db: Session = Depends(get_db)):
             data=city_data
         )
     except Exception as e:
-        logger.error(str(e), "get_city_analytics")
+        logger.log_error(str(e), "get_city_analytics")
         raise HTTPException(status_code=500, detail="Failed to generate city analytics")
 
 
@@ -103,7 +103,7 @@ async def get_payment_analytics(db: Session = Depends(get_db)):
             data=payment_data
         )
     except Exception as e:
-        logger.error(str(e), "get_payment_analytics")
+        logger.log_error(str(e), "get_payment_analytics")
         raise HTTPException(status_code=500, detail="Failed to generate payment analytics")
 
 
@@ -135,7 +135,7 @@ async def get_daily_trends(db: Session = Depends(get_db)):
             data=trends_data
         )
     except Exception as e:
-        logger.error(str(e), "get_daily_trends")
+        logger.log_error(str(e), "get_daily_trends")
         raise HTTPException(status_code=500, detail="Failed to generate daily trends")
 
 
@@ -169,7 +169,7 @@ async def get_top_users(
             data=users_data
         )
     except Exception as e:
-        logger.error(str(e), "get_top_users")
+        logger.log_error(str(e), "get_top_users")
         raise HTTPException(status_code=500, detail="Failed to generate top users analytics")
 
 
@@ -193,7 +193,7 @@ async def get_statistics(db: Session = Depends(get_db)):
         
         return stats
     except Exception as e:
-        logger.error(str(e), "get_statistics")
+        logger.log_error(str(e), "get_statistics")
         raise HTTPException(status_code=500, detail="Failed to generate statistics")
 
 
@@ -222,7 +222,7 @@ async def get_suspicious_analytics(db: Session = Depends(get_db)):
             data=suspicious_data
         )
     except Exception as e:
-        logger.error(str(e), "get_suspicious_analytics")
+        logger.log_error(str(e), "get_suspicious_analytics")
         raise HTTPException(status_code=500, detail="Failed to generate suspicious analytics")
 
 
@@ -249,5 +249,5 @@ async def get_executive_summary(db: Session = Depends(get_db)):
         
         return summary
     except Exception as e:
-        logger.error(str(e), "get_executive_summary")
+        logger.log_error(str(e), "get_executive_summary")
         raise HTTPException(status_code=500, detail="Failed to generate executive summary")

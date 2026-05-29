@@ -147,7 +147,7 @@ class AnalyticsEngine:
             logger.info(f" City analysis completed: {len(results)} cities")
             return results
         except Exception as e:
-            logger.error(f" City analysis error: {str(e)}")
+            logger.log_error(f" City analysis error: {str(e)}")
             return []
 
     @staticmethod
@@ -204,7 +204,7 @@ class AnalyticsEngine:
             logger.info(f"💳 Payment method analysis completed: {len(results)} methods")
             return results
         except Exception as e:
-            logger.error(f" Payment analysis error: {str(e)}")
+            logger.log_error(f" Payment analysis error: {str(e)}")
             return []
 
     @staticmethod
@@ -258,7 +258,7 @@ class AnalyticsEngine:
             logger.info(f" Daily trends analyzed: {len(results)} days")
             return results
         except Exception as e:
-            logger.error(f" Daily trends analysis error: {str(e)}")
+            logger.log_error(f" Daily trends analysis error: {str(e)}")
             return []
 
     @staticmethod
@@ -317,7 +317,7 @@ class AnalyticsEngine:
             logger.info(f" Top {len(results)} users identified")
             return results
         except Exception as e:
-            logger.error(f" Top users analysis error: {str(e)}")
+            logger.log_error(f" Top users analysis error: {str(e)}")
             return []
 
     @staticmethod
@@ -426,5 +426,5 @@ class AnalyticsEngine:
             logger.info(" Executive summary generated")
             return summary
         except Exception as e:
-            logger.error(f" Executive summary error: {str(e)}")
+            logger.log_error(f" Executive summary error: {str(e)}")
             return {}

@@ -59,10 +59,15 @@ def log_api_request(method: str, endpoint: str, status_code: int, duration_ms: f
     logger.info(f"API | {method} {endpoint} | Status: {status_code}{duration_str}")
 
 
+
 def log_error(error: str, context: str = ""):
-    """Log error event."""
     context_str = f" | Context: {context}" if context else ""
-    logger.error(f" Error{context_str} | {error}")
+    logger.log_error(f" Error{context_str} | {error}")
+
+def attach_log_error():
+    logger.log_error = log_error
+
+attach_log_error()
 
 
 def log_analytics_generated(report_type: str, record_count: int):

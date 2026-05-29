@@ -57,7 +57,7 @@ def import_csv_to_db():
         logger.info(f"\n[STEP 1] Reading CSV from {CSV_PATH}")
 
         if not CSV_PATH.exists():
-            logger.error(f"CSV file not found: {CSV_PATH}")
+            logger.log_error(f"CSV file not found: {CSV_PATH}")
             return False
 
         df = pd.read_csv(CSV_PATH)
@@ -258,7 +258,7 @@ def import_csv_to_db():
 
     except Exception as e:
 
-        logger.error(f"Database import failed: {e}")
+        logger.log_error(f"Database import failed: {e}")
 
         traceback.print_exc()
 
