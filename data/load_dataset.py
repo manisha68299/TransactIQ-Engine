@@ -17,10 +17,20 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+BASE_DIR = Path(__file__).resolve().parent
+
+
 # Configuration
-DATA_DIR = Path('data')
-DATABASE_PATH = Path('ecommerce.db')
+DATA_DIR = BASE_DIR
+
+# Database path
+DATABASE_PATH = BASE_DIR.parent / 'ecommerce.db'
+
+# CSV file path
 PROCESSED_CSV_PATH = DATA_DIR / 'sample_transactions.csv'
+
+# Cleaned CSV output
+CLEANED_CSV_PATH = DATA_DIR / 'cleaned_transactions.csv'
 
 # Column mapping - MATCHES ACTUAL CSV COLUMNS
 COLUMNS_TO_KEEP = {
@@ -319,6 +329,16 @@ def main():
         # Step 5: Display summary
         logger.info("\n[STEP 5] Displaying data summary...")
         display_data_summary(df)
+        
+        # Save cleaned dataset
+        output_path = "data/cleaned_transactions.csv"
+
+        df.to_csv(output_path, index=False)
+
+        logger.info(f"[OK] Cleaned dataset saved to {output_path}")
+        
+        # Save cleaned dataset
+        df.to_csv("data/cleaned_transactions.csv", index=False)
         
         logger.info("="*80)
         logger.info("[SUCCESS] DATASET LOADING COMPLETED SUCCESSFULLY")
