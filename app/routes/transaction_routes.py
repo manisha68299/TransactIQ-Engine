@@ -149,9 +149,12 @@ async def get_by_user(
         
         return transactions
     except Exception as e:
-        logger.log_error(str(e), "get_by_user")
-        raise HTTPException(status_code=500, detail="Failed to retrieve user transactions")
-
+        import traceback
+    print(traceback.format_exc())
+    raise HTTPException(
+        status_code=500,
+        detail=str(e)
+    )
 
 @router.get("/transactions/suspicious/all")
 async def get_suspicious(db: Session = Depends(get_db)):
