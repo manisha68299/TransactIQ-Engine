@@ -11,13 +11,20 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import logging
 
+# Rate limiting (slowapi)
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.middleware import SlowAPIMiddleware
+
 from app.database import init_db
-from app.routes import transaction_routes, analytics_routes, upload_routes
 from app.config import API_TITLE, API_VERSION, API_DESCRIPTION, ALLOWED_HOSTS
 from app.logger import logger
 
 # Initialize database
 init_db()
+
+# Create a global limiter instance before importing routes that reference it
+limiter = Limiter(key_func=get_remote_address)
 
 
 @asynccontextmanager
@@ -43,6 +50,13 @@ app = FastAPI(
     openapi_url="/openapi.json",
     lifespan=lifespan
 )
+
+# Attach limiter to app state so routes and middlewares can access it
+app.state.limiter = limiter
+
+# Add SlowAPI middleware and register rate-limit exception handler
+app.add_middleware(SlowAPIMiddleware)
+app.add_exception_handler(429, _rate_limit_exceeded_handler)
 
 # Add security middleware
 app.add_middleware(
@@ -75,10 +89,16 @@ async def global_exception_handler(request, exc):
     )
 
 
+# Import routes after app & limiter are defined (avoid circular imports)
+from app.routes import transaction_routes, analytics_routes, upload_routes
+from app.routes import auth_routes, bulk_routes
+
 # Include routes
 app.include_router(transaction_routes.router, prefix="/api", tags=["Transactions"])
 app.include_router(analytics_routes.router, prefix="/api", tags=["Analytics"])
 app.include_router(upload_routes.router, prefix="/api", tags=["Upload"])
+app.include_router(auth_routes.router, prefix="/api", tags=["Auth"])
+app.include_router(bulk_routes.router, prefix="/api", tags=["Upload"])
 
 
 # Health check endpoint

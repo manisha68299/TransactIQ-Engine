@@ -7,3 +7,11 @@ pydantic==2.11.5
 python-dotenv==1.1.0
 python-multipart==0.0.20
 gunicorn==23.0.0
+
+# Added for auth, background jobs, rate limiting and redis
+python-jose==3.3.0
+passlib[bcrypt]==1.7.4
+redis==4.7.0
+rq==1.13.0
+slowapi==0.1.6
+cachetools==5.3.1

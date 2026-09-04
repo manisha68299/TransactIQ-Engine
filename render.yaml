@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: transactiq-engine
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:$PORT --workers 4"
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        value: "sqlite:///./ecommerce.db"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: REDIS_URL
+        value: "redis://redis:6379"
+    services:
+      - type: redis
+        name: transactiq-redis
